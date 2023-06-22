@@ -1,5 +1,8 @@
 const Layout = function() {
 
+    const outerContainer = document.createElement("div");
+    outerContainer.classList.add("outer-container");
+
     const container = document.createElement("div");
     container.classList.add("container");
     
@@ -20,15 +23,16 @@ const Layout = function() {
 
     const submit = document.createElement("button");
     submit.setAttribute("type", "submit");
-    submit.innerHTML = "Search";
+    submit.innerHTML = "Search";   
+     
     
-    document.body.appendChild(container);
-    container.appendChild(header);
+    document.body.appendChild(outerContainer);
+    outerContainer.appendChild(header);
     header.appendChild(heading);
     header.appendChild(form);
     form.appendChild(input);
     form.appendChild(submit);
-
+    outerContainer.appendChild(container);
 
 }
 
