@@ -7,11 +7,14 @@ const Layout = function() {
     container.classList.add("container");
     
     const header = document.createElement("div");
-    header.classList.add("header");    
+    header.classList.add("header");  
     
-    const heading = document.createElement("h2");
-    heading.classList.add("heading");
-    heading.textContent = 'Weather';
+    const headerInner = document.createElement("div");
+    headerInner.classList.add("header-inner");
+    
+    const title = document.createElement("h2");
+    title.classList.add("site-title");
+    title.textContent = 'Weather';
 
     const form = document.createElement("form");
     form.id = "weather-form";
@@ -28,8 +31,9 @@ const Layout = function() {
     
     document.body.appendChild(outerContainer);
     outerContainer.appendChild(header);
-    header.appendChild(heading);
-    header.appendChild(form);
+    header.appendChild(headerInner);
+    headerInner.appendChild(title);
+    headerInner.appendChild(form);
     form.appendChild(input);
     form.appendChild(submit);
     outerContainer.appendChild(container);
