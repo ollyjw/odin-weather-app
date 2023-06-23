@@ -1,4 +1,5 @@
 import Layout from './components/layout';
+import { format, parse } from 'date-fns';
 import './styles.css';
 
 Layout();
@@ -51,6 +52,12 @@ async function createWeatherElements() {
   }
 }
 
+function formatDate(date) {
+  const dateParse = parse(date, "yyyy-MM-dd", new Date());
+  const formattedDate = format(dateParse, "ccc, LLLL d");
+  return formattedDate;
+}
+
 // Populate DOM elements
 async function populateWeatherElements() {
   await createWeatherElements();
@@ -63,7 +70,8 @@ async function populateWeatherElements() {
     let dayI = i;
 
     getForecastWeather().then((resp) => {
-      date.innerHTML = resp.forecast.forecastday[dayI].date;
+      const forecastDate = resp.forecast.forecastday[dayI].date;
+      date.innerHTML = formatDate(forecastDate);
       icon.src = resp.forecast.forecastday[dayI].day.condition.icon;
       description.innerHTML = resp.forecast.forecastday[dayI].day.condition.text;
       temps.innerHTML = `<span class="max-temp">${resp.forecast.forecastday[dayI].day.maxtemp_c}°C</span> / <span class="min-temp">${resp.forecast.forecastday[dayI].day.mintemp_c}°C</span>`;
