@@ -1,12 +1,14 @@
 import Layout from './components/layout';
-import { format, parse, isToday, isTomorrow, parseISO } from 'date-fns';
+import { isToday, isTomorrow, parseISO } from 'date-fns';
+import {formatDate, formatCurrentTime, formatCurrentDay} from './modules/formatDate.js';
 import './styles.css';
 
 Layout();
 
 // Fetch data from api
 async function getForecastWeather() {
-  const response = await fetch('https://api.weatherapi.com/v1/forecast.json?key=d9119156212d4669bee103711232006&q=London&days=5&aqi=no', {mode: 'cors'});
+  let city = document.getElementById('search-input').value;
+  const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=d9119156212d4669bee103711232006&q=${city}&days=5&aqi=no`, {mode: 'cors'});
   const weatherData = await response.json();
   return weatherData;
 }
@@ -48,14 +50,10 @@ async function createWeatherElements() {
   }
 }
 
-function formatDate(date) {
-  const dateParse = parse(date, "yyyy-MM-dd", new Date());
-  const formattedDate = format(dateParse, "ccc, LLLL d");
-  return formattedDate;
-}
 
-// Populate DOM elements
-async function populateWeatherElements() {
+
+// Populate DOM elements with weather data
+async function populateWeatherElements(city) {
   await createWeatherElements();
 
   for (let i = 0; i < 5; i++) {
@@ -63,6 +61,14 @@ async function populateWeatherElements() {
     const icon = document.querySelector(`#forecast-icon-day${i}`);
     const description = document.querySelector(`#forecast-description-day${i}`);
     const temps = document.querySelector(`#forecast-temps-day${i}`);
+
+    const city = document.querySelector("#city");
+    const region = document.querySelector('#region');
+    const highlightIcon = document.querySelector('#icon');
+    const highlightTemp = document.querySelector('.current-temp');
+    const highlightdetails = document.querySelector('.current-details');
+    const highlightDate = document.querySelector('.current-date');
+
     let dayI = i;
 
     getForecastWeather().then((resp) => {
@@ -79,23 +85,33 @@ async function populateWeatherElements() {
       icon.src = resp.forecast.forecastday[dayI].day.condition.icon;
       description.innerHTML = resp.forecast.forecastday[dayI].day.condition.text;
       temps.innerHTML = `<span class="temp max-temp">${resp.forecast.forecastday[dayI].day.maxtemp_c}°C</span> <span class="temp min-temp">${resp.forecast.forecastday[dayI].day.mintemp_c}°C</span>`;
+
+      city.innerHTML = resp.location.name;
+      region.innerHTML = resp.location.region;
+      highlightIcon.src = resp.forecast.forecastday[dayI].day.condition.icon;
+      highlightTemp.innerHTML = resp.forecast.forecastday[0].day.avgtemp_c;
+      highlightdetails.innerHTML = resp.forecast.forecastday[0].day.condition.text;
+
+      const currentLastUpdated = resp.current.last_updated;
+      highlightDate.innerHTML = `<p>Last updated:</p><p>${formatCurrentDay(currentLastUpdated)} ${formatCurrentTime(currentLastUpdated)}</p><p>${formatDate(forecastDate)}</p>`;
+
     }).catch(err => console.log(err));
   }
 }
 
-populateWeatherElements();
+// populateWeatherElements();
 
 function searchWeather(e) {
   e.preventDefault();
-  const searchTerm = document.getElementById('search-input').value;
-
-  fetch(`https://api.weatherapi.com/v1/forecast.json?key=d9119156212d4669bee103711232006&q=${searchTerm}&days=5&aqi=no`).then((response) => {return response.json(); }).then((resp => {
+  getForecastWeather().then((resp) => {
 
     console.log(`${resp.location.name} is currently ${resp.current.condition.text} and ${resp.current.temp_c}°C`);                                          
 
     console.log(`${resp.location.name} will be ${resp.forecast.forecastday[1].day.condition.text} and ${resp.forecast.forecastday[1].day.avgtemp_c}°C tomorrow`);
+
+    populateWeatherElements();
     
-  })).catch(err => console.log(err));
+  }).catch(err => console.log(err));
 }
 
 const weatherForm = document.querySelector("#weather-form")

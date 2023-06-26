@@ -1,8 +1,9 @@
-const Layout = function() {
+import highlight from "./highlight";
 
+const Layout = async function() {    
     const outerContainer = document.createElement("div");
     outerContainer.classList.add("outer-container");
-
+    
     const container = document.createElement("div");
     container.classList.add("container");
     
@@ -15,19 +16,18 @@ const Layout = function() {
     const title = document.createElement("h2");
     title.classList.add("site-title");
     title.textContent = 'Weather';
-
+    
     const form = document.createElement("form");
     form.id = "weather-form";
-
+    
     const input = document.createElement("input");
     input.setAttribute("type", "text");
     input.setAttribute("id", "search-input");
     input.setAttribute("placeholder", "Enter town/city");
-
+    
     const submit = document.createElement("button");
     submit.setAttribute("type", "submit");
-    submit.innerHTML = "Search";   
-     
+    submit.innerHTML = "Search";    
     
     document.body.appendChild(outerContainer);
     outerContainer.appendChild(header);
@@ -36,8 +36,8 @@ const Layout = function() {
     headerInner.appendChild(form);
     form.appendChild(input);
     form.appendChild(submit);
+    highlight();
     outerContainer.appendChild(container);
-
 }
 
 export default Layout;

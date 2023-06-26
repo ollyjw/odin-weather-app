@@ -17,7 +17,7 @@ body {
   margin-right: 30px;
 }
 
-.container {
+.container, .highlight-container {
   display: flex;
   justify-content: space-between;
   padding-left: calc((100vw - 1250px) / 2);
@@ -45,7 +45,6 @@ body {
 
 .temp {
   color:rgb(6, 85, 255);
-  
 }
 
 .max-temp {
@@ -61,4 +60,6 @@ body {
 
 .description {
   font-size: 1.25rem;
+  height: 50px;
+  margin-bottom: 0;
 }
