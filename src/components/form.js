@@ -24,7 +24,6 @@ const Form = async function() {
     input.setAttribute("type", "text");
     input.setAttribute("id", "search-input");
     input.setAttribute("placeholder", "Enter town/city");
-    // input.setAttribute("value", "London");
     
     const submit = document.createElement("button");
     submit.setAttribute("type", "submit");

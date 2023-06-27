@@ -53,9 +53,8 @@ async function populateWeatherElements(city) {
       cityHeader.innerHTML = resp.location.name;
       region.innerHTML = resp.location.region;
       highlightIcon.src = resp.forecast.forecastday[0].day.condition.icon;
-      highlightTemp.innerHTML = resp.forecast.forecastday[0].day.avgtemp_c;
-      highlightDetails.innerHTML =
-        resp.forecast.forecastday[0].day.condition.text;
+      highlightTemp.innerHTML = `${resp.forecast.forecastday[0].day.avgtemp_c}°C`;
+      highlightDetails.innerHTML = resp.forecast.forecastday[0].day.condition.text;
       const currentLastUpdated = resp.current.last_updated;
 
       for (let i = 0; i < 5; i++) {
@@ -77,15 +76,10 @@ async function populateWeatherElements(city) {
         }
 
         icon.src = resp.forecast.forecastday[dayI].day.condition.icon;
-        description.innerHTML =
-          resp.forecast.forecastday[dayI].day.condition.text;
+        description.innerHTML = resp.forecast.forecastday[dayI].day.condition.text;
         temps.innerHTML = `<span class="temp max-temp">${resp.forecast.forecastday[dayI].day.maxtemp_c}°C</span> <span class="temp min-temp">${resp.forecast.forecastday[dayI].day.mintemp_c}°C</span>`;
 
-        highlightDate.innerHTML = `<p>Last updated:</p><p>${formatCurrentDay(
-          currentLastUpdated
-        )} ${formatCurrentTime(currentLastUpdated)}</p><p>${formatDate(
-          forecastDate
-        )}</p>`;
+        highlightDate.innerHTML = `<p class="italic">Last updated:</p><p class="time">${formatCurrentDay(currentLastUpdated)} ${formatCurrentTime(currentLastUpdated)}</p><p class="date">${formatDate(forecastDate)}</p>`;
       }
     })
     .catch((err) => console.log(err));

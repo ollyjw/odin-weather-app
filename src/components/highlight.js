@@ -1,8 +1,11 @@
 const highlight = async function() {
     const outerContainer = document.querySelector(".outer-container");
     
+    const highlightContainer = document.createElement("div");
+    highlightContainer.classList.add("highlight-container");
+
     const highlightBox = document.createElement("div");
-    highlightBox.classList.add("highlight-container");
+    highlightBox.classList.add("highlight-box");
 
     const location = document.createElement("div");
     location.classList.add("location");
@@ -10,11 +13,17 @@ const highlight = async function() {
     const city = document.createElement("h1");
     city.id = "city";
 
-    const region = document.createElement("h2");
+    const region = document.createElement("h3");
     region.id ="region";
+
+    const currentInfo = document.createElement("div");
+    currentInfo.classList.add("current-info");
 
     const currentWeather = document.createElement("div");
     currentWeather.classList.add('current-weather');
+
+    const iconCircle = document.createElement("div");
+    iconCircle.classList.add('icon-circle');
     
     const currentWeatherIcon = document.createElement("img");
     currentWeatherIcon.id = "icon";
@@ -28,16 +37,18 @@ const highlight = async function() {
     const currentDate = document.createElement("div");
     currentDate.classList.add("current-date");      
 
-    outerContainer.appendChild(highlightBox);
+    outerContainer.appendChild(highlightContainer);
+    highlightContainer.appendChild(highlightBox);
     highlightBox.appendChild(location);
+    highlightBox.appendChild(currentInfo);
     location.appendChild(city);
     location.appendChild(region);
-    highlightBox.appendChild(currentWeather);
-    currentWeather.appendChild(currentWeatherIcon);
+    currentInfo.appendChild(currentWeather);
+    currentWeather.appendChild(iconCircle);
+    iconCircle.appendChild(currentWeatherIcon);
     currentWeather.appendChild(currentTemp);
     currentWeather.appendChild(currentDetails);
-    highlightBox.appendChild(currentDate);
-    
+    currentInfo.appendChild(currentDate);    
 }
 
 export default highlight;
