@@ -36,7 +36,7 @@ const highlight = async function() {
     currentWeather.appendChild(currentWeatherIcon);
     currentWeather.appendChild(currentTemp);
     currentWeather.appendChild(currentDetails);
-    currentWeather.appendChild(currentDate);
+    highlightBox.appendChild(currentDate);
     
 }
 
