@@ -17,3 +17,9 @@ export function formatCurrentDay(date) {
   const formattedDay = format(dayParse, "cccc");
   return formattedDay;
 }
+
+export function formatDateAlt(date) {
+  const dateParse = parse(date, "yyyy-MM-dd", new Date());
+  const formattedDate = format(dateParse, "LLLL d, yyyy");
+  return formattedDate;
+}

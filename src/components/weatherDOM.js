@@ -1,5 +1,5 @@
 import { isToday, isTomorrow, parseISO } from 'date-fns';
-import {formatDate, formatCurrentTime, formatCurrentDay} from '../modules/formatDate';
+import {formatDate, formatDateAlt, formatCurrentTime, formatCurrentDay} from '../modules/formatDate';
 import getForecastWeather from '../modules/getWeather.js';
 
 export async function createWeatherElements() {
@@ -34,12 +34,8 @@ export async function createWeatherElements() {
 }
 
 // Populate DOM elements with weather data
-async function populateWeatherElements(city) {
+async function populateWeatherElements() {
   await createWeatherElements();
-
-  if (city === "") {
-    return "London";
-    }
 
   const cityHeader = document.querySelector("#city");
   const region = document.querySelector("#region");
@@ -51,7 +47,7 @@ async function populateWeatherElements(city) {
   getForecastWeather()
     .then((resp) => {
       cityHeader.innerHTML = resp.location.name;
-      region.innerHTML = resp.location.region;
+      region.innerHTML = resp.location.region;      
       highlightIcon.src = resp.forecast.forecastday[0].day.condition.icon;
       highlightTemp.innerHTML = `${resp.forecast.forecastday[0].day.avgtemp_c}°C`;
       highlightDetails.innerHTML = resp.forecast.forecastday[0].day.condition.text;
@@ -66,6 +62,7 @@ async function populateWeatherElements(city) {
         );
         const temps = document.querySelector(`#forecast-temps-day${i}`);
         const forecastDate = resp.forecast.forecastday[dayI].date;
+        const todaysDate = resp.forecast.forecastday[0].date;
         // isToday / isTomorrow return boolean values
         if (isToday(parseISO(forecastDate))) {
           date.innerHTML = "Today";
@@ -79,7 +76,7 @@ async function populateWeatherElements(city) {
         description.innerHTML = resp.forecast.forecastday[dayI].day.condition.text;
         temps.innerHTML = `<span class="temp max-temp">${resp.forecast.forecastday[dayI].day.maxtemp_c}°C</span> <span class="temp min-temp">${resp.forecast.forecastday[dayI].day.mintemp_c}°C</span>`;
 
-        highlightDate.innerHTML = `<p class="italic">Last updated:</p><p class="time">${formatCurrentDay(currentLastUpdated)} ${formatCurrentTime(currentLastUpdated)}</p><p class="date">${formatDate(forecastDate)}</p>`;
+        highlightDate.innerHTML = `<p class="italic">Last updated:</p><p class="time">${formatCurrentDay(currentLastUpdated)} ${formatCurrentTime(currentLastUpdated)}</p><p class="date">${formatDateAlt(todaysDate)}</p>`;
       }
     })
     .catch((err) => console.log(err));
