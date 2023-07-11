@@ -6,7 +6,7 @@ export async function createWeatherElements() {
   const container = document.querySelector(".container");
   container.innerHTML = "";
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 3; i++) {
     const weatherCard = document.createElement("div");
     weatherCard.classList.add("weather-card");
 
@@ -53,7 +53,7 @@ async function populateWeatherElements() {
       highlightDetails.innerHTML = resp.forecast.forecastday[0].day.condition.text;
       const currentLastUpdated = resp.current.last_updated;
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 3; i++) {
         let dayI = i;
         const date = document.querySelector(`#forecast-date${i}`);
         const icon = document.querySelector(`#forecast-icon-day${i}`);
